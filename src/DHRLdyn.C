@@ -753,7 +753,6 @@ volSymmTensorField UPrimeAvg = volSymmTensor(UPrimeAvg11, UPrimeAvg22, UPrimeAvg
     volScalarField S23 = Sij_a.component(tensor::YZ);
     volScalarField S33 = Sij_a.component(tensor::ZZ);
 
-
     //Info << "\nDone composing strain rate tensor.\n" << endl;
 
     // Resolved turbulent production //
@@ -780,18 +779,18 @@ volSymmTensorField UPrimeAvg = volSymmTensor(UPrimeAvg11, UPrimeAvg22, UPrimeAvg
     volSymmTensorField tauSgs = nuSgsL*twoSymm(Sij);
     //Info << "\nDone composing model stresses.\n" << endl;
 
-if (time > startAvg )
-{
-    if ( (time - dt) < startAvg )
+    if (time > startAvg )
     {
+      if ( (time - dt) < startAvg )
+      {
         tauSgsAvg = tauSgs;
-    }
-    else
-    {
+      }
+      else
+      {
         tauSgsAvg = ( tauSgsAvg.oldTime()*(time-startAvg) + tauSgs*dt ) / (time-startAvg +dt);
          //Info << "\nDone averaging tauSgs.\n" << endl;
+      }
     }
-}
 
     // tauRANS components //
     volScalarField tR11 = tauRANS.component(tensor::XX);
@@ -809,7 +808,6 @@ if (time > startAvg )
     volScalarField tS23 = tauSgsAvg.component(tensor::YZ);
     volScalarField tS33 = tauSgsAvg.component(tensor::ZZ);
 
-
     // Mean SGS Production //
     SP = tauSgsAvg && Sij_a;
     //Info << "\nDone computing Mean SGS production.\n" << endl;
@@ -826,7 +824,6 @@ if (time > startAvg )
     );
 
     const volScalarField F1(this->F1(CDkOmega));
-
 
     // Turbulent frequency equation
     tmp<fvScalarMatrix> omegaEqn
@@ -876,9 +873,10 @@ if (time > startAvg )
     nuSgsR.correctBoundaryConditions();
 
     Info<< "nuSgsR : min: " << min(nuSgsR) << " max: " << max(nuSgsR) << endl;
-     Info<< "nuSgsL : min: " << min(nuSgsL) << " max: " << max(nuSgsL) << endl;
+    Info<< "nuSgsL : min: " << min(nuSgsL) << " max: " << max(nuSgsL) << endl;
 
     tauRANS = ((2.0/3.0)*I*k_) - nuSgsR*twoSymm(Sij_a); //already declared as a volSymmTensorField
+
     // RANS Production //
     RP = tauRANS && Sij_a;
 

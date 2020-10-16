@@ -1,0 +1,3 @@
+src/DHRLdyn.C
+
+LIB = $(FOAM_LIBBIN)/libturbulenceModels

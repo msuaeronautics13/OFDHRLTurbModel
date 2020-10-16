@@ -1,0 +1,12 @@
+EXE_INC = \
+    -I$(LIB_SRC)/finiteVolume/lnInclude \
+    -I$(LIB_SRC)/meshTools/lnInclude \
+    -Iinclude \
+    -I$(FOAM_SRC)/TurbulenceModels/turbulenceModels/LES/LESfilters/LESfilter/ \
+    -I$(FOAM_SRC)/TurbulenceModels/turbulenceModels/LES/LESModel/ \
+    -I$(FOAM_SRC)/TurbulenceModels/turbulenceModels/TurbulenceModel/ \
+    -I$(FOAM_SRC)/TurbulenceModels/turbulenceModels/ \
+    -I$(FOAM_SRC)/TurbulenceModels/turbulenceModels/LES/LESdeltas/LESdelta/
+LIB_LIBS = \
+    -lfiniteVolume \
+    -lmeshTools
